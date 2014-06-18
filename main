@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
+import main
 
 doc = """ Retourne une liste Alpha MinMaj"""
 
