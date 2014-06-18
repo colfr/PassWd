@@ -1,40 +1,50 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-__author__ = 'Franck Colombo'
-
-
-"""
-    Merci a SebSauvage
-"""
-try:
-    import wx
-except ImportError:
-    raise ImportError, b"The wxPython module is required to run this program"
+import wx
+from CodePassGnerator import getPassWord
 
 class MyFrame(wx.Frame):
-    """ We simply derive a new class of Frame. """
-    def __init__(self, parent,id, title):
-        wx.Frame.__init__(self, parent,id,title)
-        self.parent = parent
+    def __init__(self, parent, id, title):
+        wx.Frame.__init__(self, parent, id, title, wx.DefaultPosition)
         self.initialize()
 
+
     def initialize(self):
-        sizer = wx.GridBagSizer()
+        sizer = wx.GridBagSizer(9, 9)
+        self.panel = wx.Panel(self,size = self.GetClientSize())
+        self.labl = wx.StaticText(self.panel,-1,"Choose Number : ")
+        sizer.Add(self.labl ,(0,0),wx.DefaultSpan, wx.ALL,5)
 
-        self.quote = wx.StaticText(self, -1,label="Select caracters numbers : ")
-        sizer.Add(self.quote,(0,0),(1,1),wx.EXPAND)
+        self.inputNumber = wx.TextCtrl(self.panel,-1)
+        sizer.Add(self.inputNumber,(0,1),wx.DefaultSpan,wx.ALL,5)
 
-        button = wx.Button(self,-1,label="Click me !")
-        sizer.Add(button, (1,0),(1,2), wx.EXPAND)
+        self.btn = wx.Button(self.panel,1,'Generate Password')
+        self.result = wx.StaticText(self.panel,-1,"")
+        sizer.Add(self.result,(1,0),wx.DefaultSpan,wx.ALL,5)
+        self.Bind(wx.EVT_BUTTON, self.onClickGenerate, id=1)
+        sizer.Add(self.btn,(2,0),(1,2),wx.ALIGN_CENTER,5,5)
+
+        sizer.AddGrowableRow(0)
         sizer.AddGrowableCol(0)
+
         self.SetSizerAndFit(sizer)
-        self.Show(True)
+        self.Centre()
+
+
+    def onClickGenerate(self,event):
+        self.result.SetLabel(getPassWord(5))
 
 
 
 
-if __name__ == "__main__":
 
-    app = wx.App()
-    frame = MyFrame(None,-1,'PassWord Generator')
-    app.MainLoop()
+
+
+class MyApp(wx.App):
+    def OnInit(self):
+        frame = MyFrame(None, -1, "wxgridbagsizer.py")
+        frame.Show(True)
+        self.SetTopWindow(frame)
+        return True
+
+
+app = MyApp(0)
+app.MainLoop()
