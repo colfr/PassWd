@@ -36,6 +36,8 @@ def getPassWord(num, default=0):
      params 1 : nombre de lettres
      params2 : choix de type de mot de passe
     """
+
+    num = int(num)
     listPassWd = ""
     i = 1
 
@@ -60,7 +62,7 @@ def getPassWord(num, default=0):
 
 def isOutOfList(index):
 
-    listeNumber = [34, 39, 40, 41, 46, 59, 96, 123, 124, 125]
+    listeNumber = [34, 39, 40, 41,44, 46,58, 59,91,92,93,94, 96, 123, 124, 125]
 
     for item in listeNumber :
 
