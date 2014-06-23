@@ -6,7 +6,8 @@ __author__ = 'Trashy'
 
 
 import wx
-from CodePassGnerator import getPassWord
+
+import CodePassGnerator
 
 class windowPass(wx.Frame):
 
@@ -16,7 +17,7 @@ class windowPass(wx.Frame):
                                                 wx.MAXIMIZE_BOX)
 
         super(windowPass, self).__init__(parent, title=title,style=no_resize,
-            size=(390, 250))
+            size=(450, 250))
 
         self.parent =parent
         self.InitUI()
@@ -39,7 +40,7 @@ class windowPass(wx.Frame):
         hbox1.Add(st1, flag=wx.RIGHT, border=8)
         self.tc = wx.TextCtrl(panel)
         hbox1.Add(self.tc, flag= wx.RIGHT,proportion=1, border=8)
-        self.choice =wx.Choice(panel,2,choices = ['alpha','alphanum'])
+        self.choice =wx.Choice(panel,2,choices = ['','With Special caracters','Alphabetical'])
         hbox1.Add(self.choice,proportion=1)
         vbox.Add(hbox1, flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.TOP, border=10)
 
@@ -50,32 +51,18 @@ class windowPass(wx.Frame):
         # ---------  Line 2 --------
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
 
-        self.result = wx.StaticText(panel,-1,style = wx.NO_BORDER | wx.TE_CENTRE,size=(345,30))
+        self.result = wx.TextCtrl(panel,-1,style = wx.TE_READONLY|wx.NO_BORDER | wx.TE_CENTRE,size=(345,30))
         self.color = wx.ColourDialog(self,self.parent)
         ## On Set la couleur
         self.result.SetBackgroundColour(str(self.color.GetColourData()))
-
-
         hbox2.Add(self.result, flag=wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND, border=15)
+        btnPaste =wx.Button(panel,-1, label='Copy', size=(50,30))
+        hbox2.Add(btnPaste, flag= wx.RIGHT|wx.TOP|wx.EXPAND, border=5)
+        self.Bind(wx.EVT_BUTTON,self.onSubmitPaste,btnPaste)
+
         vbox.Add(hbox2, flag=wx.EXPAND | wx.TOP, border=10)
 
         vbox.Add((-1, 10))
-
-
-
-        hbox4 = wx.BoxSizer(wx.HORIZONTAL)
-        cb1 = wx.CheckBox(panel, label='Case Sensitive')
-        cb1.SetFont(font)
-        hbox4.Add(cb1)
-        cb2 = wx.CheckBox(panel, label='Nested Classes')
-        cb2.SetFont(font)
-        hbox4.Add(cb2, flag=wx.LEFT, border=10)
-        cb3 = wx.CheckBox(panel, label='Non-Project classes')
-        cb3.SetFont(font)
-        hbox4.Add(cb3, flag=wx.LEFT, border=10)
-        vbox.Add(hbox4, flag=wx.LEFT, border=10)
-
-        vbox.Add((-1, 25))
 
         hbox5 = wx.BoxSizer(wx.HORIZONTAL)
         btn1 = wx.Button(panel,1, label='Ok', size=(70, 30))
@@ -90,16 +77,26 @@ class windowPass(wx.Frame):
     def onClickGenerate(self,event):
         nbCaract = self.tc.GetValue()
 
-        self.result.SetLabel(getPassWord(nbCaract,self.type))
+        self.result.SetLabel(CodePassGnerator.getPassWord(nbCaract,self.type))
 
     def selectTypePwd(self,event):
 
         type = self.choice.GetSelection()
 
-        if(type == 0):
+        if(type == 1):
             self.type = 0
         else:
             self.type = 1
+
+    def onSubmitPaste(self,event):
+
+        clipdata = wx.TextDataObject()
+        clipdata.SetText(self.result.GetValue())
+        wx.TheClipboard.Open()
+        wx.TheClipboard.SetData(clipdata)
+        wx.TheClipboard.Close()
+
+
 
 
 
