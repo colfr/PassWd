@@ -17,7 +17,7 @@ class windowPass(wx.Frame):
                                                 wx.MAXIMIZE_BOX)
 
         super(windowPass, self).__init__(parent, title=title,style=no_resize,
-            size=(450, 250))
+            size=(450, 180))
 
         self.parent =parent
         self.InitUI()
@@ -67,10 +67,10 @@ class windowPass(wx.Frame):
         hbox5 = wx.BoxSizer(wx.HORIZONTAL)
         btn1 = wx.Button(panel,1, label='Ok', size=(70, 30))
         self.Bind(wx.EVT_BUTTON, self.onClickGenerate, id=1)
-        hbox5.Add(btn1)
+        hbox5.Add(btn1, flag= wx.RIGHT|wx.BOTTOM, border=10)
         btn2 = wx.Button(panel, label='Close', size=(70, 30))
-        hbox5.Add(btn2, flag=wx.LEFT|wx.BOTTOM, border=5)
-        vbox.Add(hbox5, flag=wx.ALIGN_RIGHT|wx.RIGHT, border=10)
+        hbox5.Add(btn2, flag=wx.RIGHT|wx.BOTTOM, border=5)
+        vbox.Add(hbox5, flag=wx.ALIGN_CENTER|wx.RIGHT, border=10)
 
         panel.SetSizer(vbox)
 
