@@ -9,7 +9,7 @@ python:
   - "pypy"
 # command to install dependencies
 install:
-  - apt-get install python-wxgtk2.8
+  - sudo apt-get install python-wxgtk2.8
 
 # command to run tests
 script: nosetests 
