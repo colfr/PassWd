@@ -35,6 +35,7 @@ def getPassWord(num, default=0):
      obtient une liste de lettre en fonction de deux params
      params 1 : nombre de lettres
      params2 : choix de type de mot de passe
+
     """
 
     num = int(num)
